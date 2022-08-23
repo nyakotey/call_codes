@@ -5,6 +5,7 @@
     padding:0;
     box-sizing: border-box;
     position: relative;
+    font-family:Verdana, Geneva, Tahoma, sans-serif
 }
 *::before,
 *::after{
@@ -16,7 +17,7 @@
     --red: #f2023f;
     --belly: #e4c5a8;
     --beak: #fab92b;
-    --eye: whitesmoke;
+    --info: #a8afaf;
     --dev-outline: solid lime 2px;
 }
 body{
@@ -25,27 +26,30 @@ body{
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    background-color: beige;
+    background-color: rgb(255, 255, 255);
     flex-flow: column nowrap;
-}
-body > *{
-    border: var(--dev-outline);
 }
 /* .input{
 } */
-.input-box{
+.input_box{
     width: 50vmin;
     height: 2.8rem;
     font-size: 1.2rem;
 }
-.input-submit{
+.input_submit{
     padding: 0.7rem 1.6rem;
     border-radius: 0.3rem;
-    border: 1px solid;
+    border: none;
     font-size: 1.14rem;
 }
-.country-flag{
+.country_flag{
     width: 40vmin;
     height: 25vmin;
     border-radius: 0.4rem;
+}
+.country_name{
+    font-size: 1.3rem;
+}
+.info{
+    background: var(--info);
 }

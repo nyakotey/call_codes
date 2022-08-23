@@ -15,17 +15,26 @@ function submitOnEnter(e) {
     }
 }
 function getQuery(e) {
-        return e.target.value;
+        query = e.target.value;
         input.value = "";
+        return query;
 }
 
 function search(db, searchArg) {
     return db.filter((e) => e.dialCode == searchArg);
 }
 
-function resultHtml(result) {
-    return `<img src="${result.flag}" alt="country flag" class="country-flag">
-    <p class="country-name">${result.name}</p>`;
+function res2Html(result) {
+    if (result.length == 0 ){
+        return `<div class="error">Not found</div>`;
+    }
+    result = result[0];
+    return `
+<div class="country">
+    <img src="${result.flag}" alt="country flag" class="country_flag">
+    <p class="country_name">${result.name}</p>
+</div>    
+`;
 }
 
 async function response(e) {
@@ -33,7 +42,7 @@ async function response(e) {
     console.log(db);
     query = getQuery(e);
     data = search(db, query);
-    output.innerHTML = resultHtml(...data);
+    output.innerHTML = res2Html(data);
 }
 
 input.addEventListener("enter", response);
