@@ -10,14 +10,14 @@ async function fetchDB() {
 }
 
 function submitOnEnter(e) {
-    if (e.keyCode == 13 || e.code == "Enter" || e.key == "Enter"){
-        response(e)
+    if (e.keyCode == 13 || e.code == "Enter" || e.key == "Enter") {
+        response(e);
     }
 }
 function getQuery(e) {
-        query = e.target.value;
-        // input.value = "";
-        return query;
+    query = e.target.value;
+    // input.value = "";
+    return query;
 }
 
 function search(db, searchArg) {
@@ -25,7 +25,7 @@ function search(db, searchArg) {
 }
 
 function res2Html(result) {
-    if (result.length == 0 ){
+    if (result.length == 0) {
         return `<div class="error">Not found</div>`;
     }
     result = result[0];
@@ -47,16 +47,16 @@ async function response(e) {
 
 input.addEventListener("enter", response);
 input.addEventListener("keydown", submitOnEnter);
-submitButton.addEventListener("click",response);
+submitButton.addEventListener("click", response);
 
-function tests(){
+function tests() {
     const randomCountry = () => {
-        countries = ["+255","+241","+239","+237"];
+        countries = ["+255", "+241", "+239", "+237"];
         i = Math.floor(Math.random() * countries.length);
         return countries[i];
-    }
+    };
     const fake = {
-        target: {value: randomCountry()}
-    }
+        target: { value: randomCountry() },
+    };
     response(fake);
 }
