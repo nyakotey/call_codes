@@ -2,6 +2,7 @@ const $ = (elem) => document.querySelectorAll(elem);
 const input = $("input")[0];
 const output = $(".display")[0];
 const submitButton = $("button")[0];
+const errQueryHtml = `<div class="error">Please revise your input</div>`;
 
 async function fetchDB() {
     let resp = await fetch("countries.json");
@@ -14,8 +15,8 @@ function submitOnEnter(e) {
         response(e);
     }
 }
-function getQuery(e) {
-    query = e.target.value;
+function getQuery() {
+    query = input.value;
     // input.value = "";
     return query;
 }
@@ -36,27 +37,45 @@ function res2Html(result) {
 </div>    
 `;
 }
+function validateQuery(query) {
+    // valid [.+0-9\-,]
+    const nonMatch = /[a-zA-Z;:' "?<>/.{}\\\[\]@_=!#$%^&*]/gm;
+    regex = new RegExp(nonMatch);
+    if (regex.test(query) || query == "") {
+        return false;
+    }
+    return true;
+}
 
-async function response(e) {
-    db = await fetchDB();
-    console.log(db);
-    query = getQuery(e);
-    data = search(db, query);
-    output.innerHTML = res2Html(data);
+async function response() {
+    query = getQuery();
+    validQuery = validateQuery(query);
+    if (validQuery) {
+        db = await fetchDB();
+        data = search(db, query);
+        output.innerHTML = res2Html(data);
+    } else {
+        output.innerHTML = errQueryHtml;
+    }
 }
 
 input.addEventListener("enter", response);
 input.addEventListener("keydown", submitOnEnter);
 submitButton.addEventListener("click", response);
 
-function tests() {
-    const randomCountry = () => {
-        countries = ["+255", "+241", "+239", "+237"];
+async function tests() {
+    const testRandomCountry = () => {
+        countries = ["+255", "+241", "+239", "+237", "+1"];
         i = Math.floor(Math.random() * countries.length);
         return countries[i];
     };
-    const fake = {
-        target: { value: randomCountry() },
-    };
-    response(fake);
+    // const fake = {
+    //     target: { value: randomCountry() },
+    // };
+    // response(fake);
+    db = await fetchDB();
+        data = search(db, testRandomCountry());
+        output.innerHTML = res2Html(data);
+
 }
+// tests();
