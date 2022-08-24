@@ -1,55 +1,86 @@
-*,
-*::before,
-*::after{
-    margin:0;
-    padding:0;
+* {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
     position: relative;
-    font-family:Verdana, Geneva, Tahoma, sans-serif
+    font-family: Roboto, Verdana, Geneva, Tahoma, sans-serif;
 }
-*::before,
-*::after{
-    content:'';
-    position: absolute;
-}
-:root{
+:root {
     --black: #111;
     --red: #f2023f;
-    --belly: #e4c5a8;
-    --beak: #fab92b;
-    --info: #a8afaf;
+    --green: #66a583;
+    --unset: #fafafa;
+    --info: #d9f3e4;
+    --header: #5c6263;
     --dev-outline: solid lime 2px;
 }
-body{
+body {
     width: 100vw;
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    background-color: rgb(255, 255, 255);
+    background-color: #ffffff;
     flex-flow: column nowrap;
+    background: var(--unset);
 }
-/* .input{
+/* body > * {
+    border: var(--dev-outline);
 } */
-.input_box{
-    width: 50vmin;
+.header {
+    position: absolute;
+    top: 0;
+    padding: 0.8rem;
+    width: 100%;
+    text-align: center;
+    color: white;
+    background: var(--header);
+}
+.input {
+    width: 85vmin;
+    display: flex;
+}
+.input_box {
+    width: 70%;
     height: 2.8rem;
     font-size: 1.2rem;
 }
-.input_submit{
+.input_submit {
+    width: 30%;
     padding: 0.7rem 1.6rem;
     border-radius: 0.3rem;
     border: none;
     font-size: 1.14rem;
 }
-.country_flag{
-    width: 40vmin;
-    height: 25vmin;
-    border-radius: 0.4rem;
+.country {
+    display: flex;
+    /* justify-content: center;
+    align-items: center; */
+    gap: .8rem;
+    flex-direction: column;
 }
-.country_name{
+.display{
+    width: 85vmin;
+}
+.country_flag {
+    height: 25vmin;
+    overflow: hidden;
+}
+.country_flag_img {
+    object-fit: contain;
+    width: auto;
+    height: 100%;
+    border-radius: 0.3rem;
+}
+.country_name {
     font-size: 1.3rem;
 }
-.info{
+.info {
     background: var(--info);
+    width: 85vmin;
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+.info-icon {
+    color: var(--green);
 }

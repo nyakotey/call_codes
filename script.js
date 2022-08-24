@@ -16,7 +16,7 @@ function submitOnEnter(e) {
 }
 function getQuery(e) {
         query = e.target.value;
-        input.value = "";
+        // input.value = "";
         return query;
 }
 
@@ -31,8 +31,8 @@ function res2Html(result) {
     result = result[0];
     return `
 <div class="country">
-    <img src="${result.flag}" alt="country flag" class="country_flag">
     <p class="country_name">${result.name}</p>
+    <div class="country_flag"><img src="${result.flag}" alt="" class="country_flag_img"></div>
 </div>    
 `;
 }
@@ -48,3 +48,15 @@ async function response(e) {
 input.addEventListener("enter", response);
 input.addEventListener("keydown", submitOnEnter);
 submitButton.addEventListener("click",response);
+
+function tests(){
+    const randomCountry = () => {
+        countries = ["+255","+241","+239","+237"];
+        i = Math.floor(Math.random() * countries.length);
+        return countries[i];
+    }
+    const fake = {
+        target: {value: randomCountry()}
+    }
+    response(fake);
+}
