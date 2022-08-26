@@ -4,9 +4,17 @@
     box-sizing: border-box;
     position: relative;
     font-family: Roboto, Verdana, Geneva, Tahoma, sans-serif;
+    scroll-behavior: smooth;
 }
 
 :root {
+    /* palette */
+    --white: #fafafaff;
+    --onyx: #37393aff;
+    --blue-crayola: #3777ffff;
+    --ocean-green: #26c485ff;
+    --maximum-yellow-red: #e3b23cff;
+    /* page */
     --yellow: #e3b23c;
     --green: #66a583;
     --bg: #fbfbfb;
@@ -23,10 +31,11 @@ body {
     height: 100vh;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
     flex-flow: column nowrap;
     background: var(--bg);
     color: var(--text);
+    overflow-x: hidden;
+    gap: 2.5em;
 }
 
 /* body > * {
@@ -41,6 +50,7 @@ body {
     color: white;
     background: var(--header);
     font-size: 1.3rem;
+    z-index: 1;
 }
 
 .input {
@@ -64,7 +74,6 @@ body {
 
 .input_submit {
     width: 30%;
-    padding: 0.7rem 1.6rem;
     border-radius: 0.3rem;
     border: none;
     font-size: 1.14rem;
@@ -75,33 +84,45 @@ body {
 .display {
     width: 85vmin;
     display: flex;
-    /* border: 1px solid #000; */
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    gap: 2rem;
+    padding: 1.5rem 0;
 }
 
 .country {
+    width: 65%;
     display: flex;
+    flex: 0 0 max-content;
     /* justify-content: center;
     align-items: center; */
     gap: 0.8rem;
     flex-direction: column;
-    /* background: var(--country); */
+    background: white;
     padding: 1rem;
-    border-radius: .5rem;
-    /* border: 3px solid var(--yellow); */
+    border-radius: 0.5rem;
+    box-shadow: 0 0 2px 0px rgba(94, 94, 94, 0.164),
+        0 0 4px 1px rgba(55, 118, 255, 0.05);
 }
 
 .country_name {
     /* font-size: 1.3rem; */
     font-weight: bold;
 }
+
 .country_flag {
+    width: 100%;
     height: 25vmin;
     overflow: hidden;
+    background: var(--bg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .country_flag_img {
-    object-fit: contain;
-    width: auto;
+    object-fit: fill;
+    width: 100%;
     height: 100%;
 }
 
@@ -109,18 +130,21 @@ body {
     background: var(--info);
     width: 85vmin;
     border-radius: 0.5rem;
-    padding: .7rem 1.3rem .9rem;
+    padding: 0.7rem 1.3rem 0.9rem;
+    margin-top: 5rem;
 }
-.info_header{
-    padding-bottom: .6rem;
+
+.info_header {
+    padding-bottom: 0.6rem;
 }
 
 .info-icon {
     color: var(--green);
 }
-.error{
+
+.error {
     background: #fcd4dc;
     width: 85vmin;
     border-radius: 0.5rem;
-    padding: .7rem 1.3rem .9rem;
+    padding: 0.7rem 1.3rem 0.9rem;
 }
