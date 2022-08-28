@@ -25,8 +25,15 @@ async function fetchDB() {
     return json;
 }
 
-function search(db, searchArg) {
-    return db.filter((e) => e.dialCode == searchArg);
+async function fetchThirdPartyDB(country) {
+    link = `https://restcountries.com/v3.1/name/${country}`;
+    data = await fetch(link);
+    return await data.json();
+    // currencies, languages, flag,flags, timezones, continent
+}
+
+function search(db, filterField, searchArg) {
+    return db.filter((e) => e[filterField] == searchArg);
 }
 
 function res2Html(result) {
@@ -37,34 +44,35 @@ function res2Html(result) {
         return notFoundHtml;
     }
     result.forEach((c) => {
-         countryHtml = `
+        countryHtml = `
 <div class="country">
 <p class="country_name">${c.name}</p>
 <div class="country_flag"><img src="${c.flag}" alt="" class="country_flag_img"></div>
 </div>    
 `;
-AllCountryHtml += countryHtml; 
+        AllCountryHtml += countryHtml;
     });
-   
+
     return AllCountryHtml;
 }
 
 async function response() {
     query = getQuery();
+    output.innerHTML = "<div style='color: #aaaaaa44;'>loading...</div>";
     validQuery = validateQuery(query);
     if (validQuery) {
         db = await fetchDB();
-        data = search(db, query);
+        data = search(db, "dialCode", query);
         output.innerHTML = res2Html(data);
     } else {
-    const errQueryHtml = `<div class="error">Please revise your input</div>`;
+        const errQueryHtml = `<div class="error">Please revise your input</div>`;
         output.innerHTML = errQueryHtml;
     }
 }
 
 function submitOnEnter(e) {
     if (e.keyCode == 13 || e.code == "Enter" || e.key == "Enter") {
-        response(e);
+        response();
     }
 }
 
@@ -79,10 +87,10 @@ async function tests() {
     // };
     // response(fake);
     db = await fetchDB();
-    data = search(db, testRandomCountry());
+    data = search(db, "dialCode", testRandomCountry());
     output.innerHTML = res2Html(data);
 }
-// tests();
+tests();
 
 // main
 input.addEventListener("enter", response);
