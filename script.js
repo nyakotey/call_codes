@@ -71,7 +71,7 @@ async function fetchAndFilter(searchArg, filterField, dbLink) {
 
 
 async function searchNorthAmerica(searchArg) {
-    const result = [];
+    let result = [];
     const northAmericaRegex = genRegex(/[+]1-[0-9]{3,}/);
 
     if (northAmericaRegex.test(searchArg)) {
