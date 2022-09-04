@@ -8,14 +8,12 @@ const genRegex = (pattern) => new RegExp(pattern, "gm");
 
 
 function validateQuery(query) {
-    // valid [.+0-9\-,]
-    const nonMatch = genRegex(/[a-zA-Z;:' "?<>/.{}\\\[\]@_=!#$%^&*]/);
-    if (nonMatch.test(query) || query == "") {
-        return false;
+    const general = genRegex(/[+](1-){0,1}[0-9]{1,4}$/);
+    if (general.test(query)) {
+        return true;
     }
-    return true;
+    return false;
 }
-
 
 async function fetchDB(dbPath) {
     try {
