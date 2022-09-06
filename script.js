@@ -25,7 +25,7 @@ async function fetchDB(dbPath) {
 }
 
 
-function generate3PHtml(json) {
+function generate3PHtml(json={}) {
     if (!("currencies" in json)) {
         return "";
     }
