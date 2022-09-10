@@ -48,7 +48,7 @@ body {
     width: 100%;
     text-align: center;
     color: white;
-    background: var(--header);
+    background: #2da38d;
     font-size: 1.3rem;
     z-index: 1;
 }
@@ -102,7 +102,7 @@ body {
 
 .input_box:focus {
     outline: none;
-    border: 2px solid var(--button);
+    border: 2px solid var(--maximum-yellow-red);
 }
 
 .input_submit {
@@ -110,7 +110,7 @@ body {
     border-radius: 0.3rem;
     border: none;
     font-size: 1.14rem;
-    background: var(--button);
+    background: var(--maximum-yellow-red);
     color: #fcfcfc;
 }
 
