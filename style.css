@@ -15,27 +15,22 @@
     --ocean-green: #26c485ff;
     --maximum-yellow-red: #e3b23cff;
     /* page */
-    --yellow: #e3b23c;
-    --green: #66a583;
     --bg: #ececec;
     --info: #d9f3e4;
     --header: #37393a;
     --dev-outline: solid lime 2px;
-    --button: #3777ff;
-    --country: #3777ff;
     --text: #37393a;
 }
 
 body {
     width: 100vw;
-    /* height: 100vh; */
     display: flex;
     align-items: center;
     flex-flow: column nowrap;
     background: var(--bg);
     color: var(--text);
     overflow-x: hidden;
-    gap: 2.5em;
+    gap: 2em;
 }
 
 /* body > * {
@@ -58,7 +53,7 @@ body {
     width: 85vmin;
     border-radius: 0.5rem;
     padding: 0.7rem 1.3rem 0.9rem;
-    margin-top: 5rem;
+    margin-top: 4rem;
 }
 
 .info_header {
@@ -120,17 +115,15 @@ body {
     flex-wrap: nowrap;
     overflow-x: auto;
     gap: 1.2rem;
-    padding: 1.5rem 0;
+    padding: 0.8rem 0;
     scroll-snap-type: x mandatory;
 }
 
 .country {
-    /*! width: 60%; */
+    max-width: 90%;
     /*! height: fit-content; */
     display: flex;
     flex: 0 0 min-content;
-    /* justify-content: center;
-    align-items: center; */
     gap: 0.8rem;
     flex-direction: column;
     background: white;
@@ -175,6 +168,7 @@ body {
     padding: 0.7rem 1.3rem 0.9rem;
 }
 
+.code_title,
 .continent_title,
 .tz_title,
 .lang_title,
