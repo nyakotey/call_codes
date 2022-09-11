@@ -1,6 +1,9 @@
 const $ = (elem) => document.querySelectorAll(elem);
 
 
+const render = (elem, data) => elem.innerHTML = data;
+
+
 const getQuery = () => input.value;
 
 
@@ -15,17 +18,70 @@ function validateQuery(query) {
     return false;
 }
 
+
 async function fetchDB(dbPath) {
     try {
         let resp = await fetch(dbPath);
         return await resp.json();
     } catch (error) {
-        output.innerHTML = `<div class="error">Oops an error occurred</div>`;
+        render(output, err.oops);
     }
 }
 
 
-function generate3PHtml(json={},query) {
+function searchDB(db, filterField, searchArg) {
+    return db.filter((e) => e[filterField] == searchArg);
+}
+
+
+async function fetchAndFilter(searchArg, filterField, dbLink) {
+    let json = await fetchDB(dbLink);
+    let city = searchDB(json, filterField, searchArg);
+    return city;
+}
+
+async function searchRegion(query) {
+    // region regex
+    const northAmericaRegex = genRegex(/[+]1-[0-9]{3,}/);
+    // region search
+    if (northAmericaRegex.test(query)) {
+        return await searchNorthAmerica(query);
+    }
+}
+
+
+async function searchNorthAmerica(searchArg) {
+    let result = [];
+    const statesDB = [["canada_city_codes.json", "Canada"], ["usa_city_codes.json", "United States"]];
+    for (const state of statesDB) {
+        const city = await fetchAndFilter(searchArg.split("+")[1], "Phone Code", state[0]);
+        if (city.length != 0) {
+            city.push(state[1]);
+            result = city;
+            break;
+        }
+    }
+    if (result.length == 0) {
+        return undefined;
+    }
+    result[0]["country"] = result[1];
+    return result[0];
+}
+
+
+async function getExtraDetails(srcInfo) {
+    let links = [];
+    srcInfo.forEach(country => {
+        links.push(`https://restcountries.com/v3.1/alpha/${country.isoCode}`)
+    });
+    console.table(links);
+    const jsons = links.map(async (link) => await fetchDB(link));
+    const details = await Promise.all(jsons); console.log(details.flat())
+    return details.flat();
+}
+
+
+function generate3PHtml(json = {}, query) {
     if (!("currencies" in json)) {
         return "";
     }
@@ -57,7 +113,7 @@ function generate3PHtml(json={},query) {
             <i class="fas fa-money-bill-alt fa-fw extra_icons"></i>
             <span> Currencies </span>
         </div>
-        <div class="currencies_content">${currencies.splice(0, 3).join(", ")}</div>
+        <div class="currencies_content">${currencies.splice(0, 3).join("<br>")}</div>
 
         <div class="lang_title"> 
             <i class="fas fa-language fa-fw extra_icons"></i>
@@ -82,53 +138,17 @@ function generate3PHtml(json={},query) {
 }
 
 
-function searchDB(db, filterField, searchArg) {
-    return db.filter((e) => e[filterField] == searchArg);
-}
-
-
-async function fetchAndFilter(searchArg, filterField, dbLink) {
-    let json = await fetchDB(dbLink);
-    let city = searchDB(json, filterField, searchArg);
-    return city;
-}
-
-
-async function searchNorthAmerica(searchArg) {
-    let result = [];
-    const northAmericaRegex = genRegex(/[+]1-[0-9]{3,}/);
-
-    if (northAmericaRegex.test(searchArg)) {
-        const statesDB = [["canada_city_codes.json", "Canada"], ["usa_city_codes.json", "United States"]];
-        for (const state of statesDB) {
-            const city = await fetchAndFilter(searchArg.split("+")[1], "Phone Code", state[0]);
-            if (city.length != 0) {
-                city.push(state[1]);
-                result = city;
-                break;
-            }
-        }
-        if (result.length == 0) {
-            return undefined;
-        }
-        result[0]["country"] = result[1];
-        return result[0];
-    }
-}
-
-
-function generateHtml(mainData, externalInfo = [{}], city = {},query) {
+function generateHtml(mainData, externalInfo = [{}], city = {}, query = "+XXX") {
     let AllCountryHtml = "";
-    let notFoundHtml = `<div class="error">Not found</div>`;
     let cityHtml = "Description" in city ? `<span class="country_region">${city["Description"]},</span>` : "";
 
     if (mainData.length == 0) {
-        return notFoundHtml;
+        return err.notFound;
     }
 
     for (let i = 0; i < mainData.length; i++) {
         const details = mainData[i];
-        let extraHtml = generate3PHtml(externalInfo[i],query);
+        let extraHtml = generate3PHtml(externalInfo[i], query);
         let countryHtml = `
             <div class="country">
             <p class="country_name">${cityHtml} ${details.name}</p>
@@ -144,41 +164,28 @@ function generateHtml(mainData, externalInfo = [{}], city = {},query) {
 
 async function response() {
     const loadingHtml = "<div style='color: #aaaaaabb;'>loading...</div>";
-    output.innerHTML = loadingHtml;
+    render(output, loadingHtml);
 
     let query = getQuery();
     let validQuery = validateQuery(query);
     if (validQuery) {
-        let mainInfo;
+        let mainInfo, region, allExternalInfo, countryHtml;
         const db = await fetchDB("countries.json");
-        let northAmerican = await searchNorthAmerica(query);
+        region = await searchRegion(query);
 
-        if (typeof (northAmerican) != 'undefined') {
-            mainInfo = searchDB(db, "name", northAmerican["country"]);
+        if (typeof (region) != 'undefined') {
+            mainInfo = searchDB(db, "name", region["country"]);
         }
         else {
             mainInfo = searchDB(db, "dialCode", query);
         }
-
-        let AllExternalInfo = await getExtraDetails(mainInfo);
-        output.innerHTML = generateHtml(mainInfo, AllExternalInfo, northAmerican,query);
+        allExternalInfo = await getExtraDetails(mainInfo);
+        countryHtml = generateHtml(mainInfo, allExternalInfo, region, query);
+        render(output, countryHtml);
     }
     else {
-        const errQueryHtml = `<div class="error">Please revise your input</div>`;
-        output.innerHTML = errQueryHtml;
+        render(output, err.invalidInput);
     }
-}
-
-
-async function getExtraDetails(srcInfo) {
-    let links = [];
-    srcInfo.forEach(country => {
-        links.push(`https://restcountries.com/v3.1/alpha/${country.isoCode}`)
-    });
-    console.table(links);
-    const jsons = links.map(async (link) => await fetchDB(link)); 
-    const details = await Promise.all(jsons);console.log(details.flat())
-    return details.flat();
 }
 
 
@@ -191,20 +198,27 @@ function submitOnEnter(e) {
 
 async function tests() {
     const testRandomCountry = () => {
-        countries = ["+255", "+241", "+239", "+44", "+237", "+1", "+1264","+350","+63","+580","+61"];
+        countries = ["+255", "+241", "+239", "+44", "+237", "+1", "+1264", "+350", "+63", "+850", "+61", "+358", "+970", "+974"];
         i = Math.floor(Math.random() * countries.length);
         return countries[i];
     };
+    let randomCountry = testRandomCountry(); console.log(randomCountry);
     let db = await fetchDB("countries.json");
-    let data = searchDB(db, "dialCode", testRandomCountry());
+    let data = searchDB(db, "dialCode", randomCountry);
 
-    let AllExternalInfo = await getExtraDetails(data);
-    output.innerHTML = generateHtml(data, AllExternalInfo);
+    let allExternalInfo = await getExtraDetails(data);
+    let countryHtml = generateHtml(data, allExternalInfo, undefined, randomCountry);
 }
-tests();
+// tests();
 
 
 // main
+const err = {
+    invalidInput: `<div class="error">Please revise your input</div>`,
+    notFound: `<div class="error">Not found</div>`,
+    oops: `<div class="error">Oops an error occurred</div>`,
+}
+// dom
 const input = $("input")[0];
 const output = $(".display")[0];
 const submitButton = $("button")[0];
