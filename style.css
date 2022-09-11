@@ -17,7 +17,7 @@
     /* page */
     --yellow: #e3b23c;
     --green: #66a583;
-    --bg: #ecf2ef;
+    --bg: #ececec;
     --info: #d9f3e4;
     --header: #37393a;
     --dev-outline: solid lime 2px;
@@ -48,7 +48,7 @@ body {
     width: 100%;
     text-align: center;
     color: white;
-    background: var(--ocean-green);
+    background: var(--header);
     font-size: 1.3rem;
     z-index: 1;
 }
@@ -83,7 +83,7 @@ body {
 
 .info_format--content {
     font-weight: bold;
-    color: var(--maximum-yellow-red);
+    color: var(--ocean-green);
 }
 
 .input {
@@ -102,7 +102,7 @@ body {
 
 .input_box:focus {
     outline: none;
-    border: 2px solid var(--ocean-green);
+    border: 2px solid var(--blue-crayola);
 }
 
 .input_submit {
@@ -110,7 +110,7 @@ body {
     border-radius: 0.3rem;
     border: none;
     font-size: 1.14rem;
-    background: var(--ocean-green);
+    background: var(--blue-crayola);
     color: #fcfcfc;
 }
 
@@ -197,7 +197,7 @@ body {
 .currency_symbol {
     /* font-weight: bold; */
     color: var(--onyx);
-    background: var(--maximum-yellow-red);
+    background: var(--ocean-green);
     border-radius: 0.2rem;
     padding: 0 0.2rem;
 }
