@@ -173,7 +173,7 @@ async function response() {
 async function getExtraDetails(srcInfo) {
     let links = [];
     srcInfo.forEach(country => {
-        links.push(`https://restcountries.com/v3.1/name/${country.name}`)
+        links.push(`https://restcountries.com/v3.1/alpha/${country.isoCode}`)
     });
     console.table(links);
     const jsons = links.map(async (link) => await fetchDB(link)); 
