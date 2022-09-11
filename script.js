@@ -8,7 +8,7 @@ const genRegex = (pattern) => new RegExp(pattern, "gm");
 
 
 function validateQuery(query) {
-    const general = genRegex(/[+](1-){0,1}[0-9]{1,4}$/);
+    const general = genRegex(/[+](\d\d?-){0,1}[0-9]{1,4}$/);
     if (general.test(query)) {
         return true;
     }
@@ -170,6 +170,7 @@ async function getExtraDetails(srcInfo) {
     srcInfo.forEach(country => {
         links.push(`https://restcountries.com/v3.1/name/${country.name}`)
     });
+    console.table(links);
     const jsons = links.map(async (link) => await fetchDB(link));
     const details = await Promise.all(jsons);
     return details.flat();
@@ -185,7 +186,7 @@ function submitOnEnter(e) {
 
 async function tests() {
     const testRandomCountry = () => {
-        countries = ["+255", "+241", "+239", "+44", "+237", "+1", "+1264","+350","+63","+580"];
+        countries = ["+255", "+241", "+239", "+44", "+237", "+1", "+1264","+350","+63","+580","+61"];
         i = Math.floor(Math.random() * countries.length);
         return countries[i];
     };
@@ -195,7 +196,7 @@ async function tests() {
     let AllExternalInfo = await getExtraDetails(data);
     output.innerHTML = generateHtml(data, AllExternalInfo);
 }
-// tests();
+tests();
 
 
 // main
