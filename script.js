@@ -25,7 +25,7 @@ async function fetchDB(dbPath) {
 }
 
 
-function generate3PHtml(json={}) {
+function generate3PHtml(json={},query) {
     if (!("currencies" in json)) {
         return "";
     }
@@ -42,6 +42,11 @@ function generate3PHtml(json={}) {
     // limit max to 3 by splicing
     let html = /* html*/ `
     <div class="country_extra">
+        <div class="code_title"> 
+            <i class="fas fa-tty fa-fw extra_icons"></i>
+            <span> DialCode </span>
+        </div>
+        <div class="continent_content">${query}</div>
         <div class="continent_title"> 
             <i class="fas fa-globe fa-fw extra_icons"></i>
             <span> Continent </span>
@@ -112,7 +117,7 @@ async function searchNorthAmerica(searchArg) {
 }
 
 
-function generateHtml(mainData, externalInfo = [{}], city = {}) {
+function generateHtml(mainData, externalInfo = [{}], city = {},query) {
     let AllCountryHtml = "";
     let notFoundHtml = `<div class="error">Not found</div>`;
     let cityHtml = "Description" in city ? `<span class="country_region">${city["Description"]},</span>` : "";
@@ -123,7 +128,7 @@ function generateHtml(mainData, externalInfo = [{}], city = {}) {
 
     for (let i = 0; i < mainData.length; i++) {
         const details = mainData[i];
-        let extraHtml = generate3PHtml(externalInfo[i]);
+        let extraHtml = generate3PHtml(externalInfo[i],query);
         let countryHtml = `
             <div class="country">
             <p class="country_name">${cityHtml} ${details.name}</p>
@@ -156,7 +161,7 @@ async function response() {
         }
 
         let AllExternalInfo = await getExtraDetails(mainInfo);
-        output.innerHTML = generateHtml(mainInfo, AllExternalInfo, northAmerican);
+        output.innerHTML = generateHtml(mainInfo, AllExternalInfo, northAmerican,query);
     }
     else {
         const errQueryHtml = `<div class="error">Please revise your input</div>`;
@@ -171,8 +176,8 @@ async function getExtraDetails(srcInfo) {
         links.push(`https://restcountries.com/v3.1/name/${country.name}`)
     });
     console.table(links);
-    const jsons = links.map(async (link) => await fetchDB(link));
-    const details = await Promise.all(jsons);
+    const jsons = links.map(async (link) => await fetchDB(link)); 
+    const details = await Promise.all(jsons);console.log(details.flat())
     return details.flat();
 }
 
