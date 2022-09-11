@@ -32,7 +32,7 @@ body {
     display: flex;
     align-items: center;
     flex-flow: column nowrap;
-    background: var(--bg);
+    background: #ecf2ef;
     color: var(--text);
     overflow-x: hidden;
     gap: 2.5em;
@@ -48,7 +48,7 @@ body {
     width: 100%;
     text-align: center;
     color: white;
-    background: #2da38d;
+    background: var(--ocean-green);
     font-size: 1.3rem;
     z-index: 1;
 }
@@ -83,7 +83,7 @@ body {
 
 .info_format--content {
     font-weight: bold;
-    color: var(--ocean-green);
+    color: var(--maximum-yellow-red);
 }
 
 .input {
@@ -102,7 +102,7 @@ body {
 
 .input_box:focus {
     outline: none;
-    border: 2px solid var(--maximum-yellow-red);
+    border: 2px solid var(--ocean-green);
 }
 
 .input_submit {
@@ -110,7 +110,7 @@ body {
     border-radius: 0.3rem;
     border: none;
     font-size: 1.14rem;
-    background: var(--maximum-yellow-red);
+    background: var(--ocean-green);
     color: #fcfcfc;
 }
 
@@ -119,15 +119,16 @@ body {
     display: flex;
     flex-wrap: nowrap;
     overflow-x: auto;
-    gap: 2rem;
+    gap: 1.2rem;
     padding: 1.5rem 0;
+    scroll-snap-type: x mandatory;
 }
 
 .country {
     /*! width: 60%; */
-    height: fit-content;
+    /*! height: fit-content; */
     display: flex;
-    flex: 0 0 60%;
+    flex: 0 0 min-content;
     /* justify-content: center;
     align-items: center; */
     gap: 0.8rem;
@@ -137,6 +138,7 @@ body {
     border-radius: 0.5rem;
     box-shadow: 0 0 2px 0px rgba(94, 94, 94, 0.164),
         0 0 4px 1px rgba(55, 118, 255, 0.05);
+    scroll-snap-align: center;
 }
 
 .country_name {
@@ -173,13 +175,29 @@ body {
     padding: 0.7rem 1.3rem 0.9rem;
 }
 
-/* .continent_title,.tz_title,.lang_title,.currencies_title{
-    color: var(--maximum-yellow-red);
-    border-radius: 0.3rem;
+.continent_title,
+.tz_title,
+.lang_title,
+.currencies_title,
+.coa_title {
+    color: #808080;
     border: none;
-    font-size: 1.14rem;
-    padding: 0.3rem;
-} */
-/* .continent_content,.tz_content,.lang_content,.currencies_content{
+    display: grid;
+    grid-template-columns: 2fr 8fr;
+    gap: 0.3rem;
+    align-items: baseline;
+}
+
+/* .continent_content,.tz_content,.lang_content,.currencies_content,.coa_content{
     color: rgb(59, 59, 59);
 } */
+/* .extra_icons{
+    color: var(--ocean-green);
+} */
+.currency_symbol {
+    /* font-weight: bold; */
+    color: var(--onyx);
+    background: var(--maximum-yellow-red);
+    border-radius: 0.2rem;
+    padding: 0 0.2rem;
+}

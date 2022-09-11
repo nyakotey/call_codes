@@ -34,24 +34,43 @@ function generate3PHtml(json={}) {
         languages.push([json.languages[lang]]);
     }
     for (const currency in json.currencies) {
-        currencies.push(`(${json.currencies[currency].symbol}) ${json.currencies[currency].name}`);
+        currencies.push(`<span class="currency_symbol">${json.currencies[currency].symbol}</span> ${json.currencies[currency].name}`);
     }
     for (const tz of json.timezones) {
         timezones.push(tz);
     }
     // limit max to 3 by splicing
-    let html = `
+    let html = /* html*/ `
     <div class="country_extra">
-        <div class="continent_title">Continent</div>
+        <div class="continent_title"> 
+            <i class="fas fa-globe fa-fw extra_icons"></i>
+            <span> Continent </span>
+        </div>
         <div class="continent_content">${json.continents[0]}</div>
-        <div class="currencies_title">Currencies</div>
+
+        <div class="currencies_title"> 
+            <i class="fas fa-money-bill-alt fa-fw extra_icons"></i>
+            <span> Currencies </span>
+        </div>
         <div class="currencies_content">${currencies.splice(0, 3).join(", ")}</div>
-        <div class="lang_title">Languages</div>
+
+        <div class="lang_title"> 
+            <i class="fas fa-language fa-fw extra_icons"></i>
+            <span> Languages </span>
+        </div>
         <div class="lang_content">${languages.splice(0, 3).join(", ")}</div>
-        <div class="tz_title">Timezones</div>
+
+        <div class="tz_title"> 
+            <i class="fas fa-clock fa-fw extra_icons"></i>
+            <span> Timezones </span>
+        </div>
         <div class="tz_content">${timezones.splice(0, 3).join(", ")}</div>
-        <!--<div class="coa_title">Coat of Arms</div>
-        <div class="coa_content"><img src="${json.coatOfArms.png}" style="width:4rem;height:auto"/></div>-->
+        
+        <!-- <div class="coa_title"> 
+            <i class="fas fa-horse-head fa-fw extra_icons"></i>
+            <span> Coat of Arms </span>
+        </div>
+        <div class="coa_content"><img src="${json.coatOfArms.png}" style="width:4rem;height:auto"/></div> -->
     </div>    
 `;
     return html;
@@ -166,7 +185,7 @@ function submitOnEnter(e) {
 
 async function tests() {
     const testRandomCountry = () => {
-        countries = ["+255", "+241", "+239", "+44", "+237", "+1", "+1264","+350"];
+        countries = ["+255", "+241", "+239", "+44", "+237", "+1", "+1264","+350","+63","+580"];
         i = Math.floor(Math.random() * countries.length);
         return countries[i];
     };
