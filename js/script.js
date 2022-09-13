@@ -11,7 +11,7 @@ const genRegex = (pattern) => new RegExp(pattern, "gm");
 
 
 function validateQuery(query) {
-    const general = genRegex(/[+](\d\d?-){0,1}[0-9]{1,4}$/);
+    const general = genRegex(/^[+]{1}(\d\d?-){0,1}[0-9]{1,4}$/);
     if (general.test(query)) {
         return true;
     }
