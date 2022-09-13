@@ -126,20 +126,20 @@ body {
 }
 
 .display {
-    width: 85vmin;
+    width: 100vw;
     display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
+    justify-content: center;
+    flex-wrap: wrap;
+    overflow-y: auto;
     gap: 1.2rem;
-    padding: 2rem 0;
-    scroll-snap-type: x mandatory;
+    padding: 2rem;
+    scroll-snap-type: y mandatory;
 }
 
 .country {
-    max-width: 90%;
-    /*! height: fit-content; */
+    width: min(75vmin,290px);
     display: flex;
-    flex: 0 0 max-content;
+    /*! flex: 0 0 max-content; */
     gap: 0.8rem;
     flex-direction: column;
     background: white;
@@ -147,7 +147,7 @@ body {
     border-radius: 0.5rem;
     box-shadow: 0 0 2px 0px rgba(94, 94, 94, 0.164),
         0 0 4px 1px rgba(55, 118, 255, 0.05);
-    scroll-snap-align: center;
+    scroll-snap-align: start;
 }
 
 .country_name {
