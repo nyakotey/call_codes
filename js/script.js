@@ -52,7 +52,7 @@ async function searchRegion(query) {
 
 async function searchNorthAmerica(searchArg) {
     let result = [];
-    const statesDB = [["canada_city_codes.json", "Canada"], ["usa_city_codes.json", "United States"]];
+    const statesDB = [["/db/canada_city_codes.json", "Canada"], ["/db/usa_city_codes.json", "United States"]];
     for (const state of statesDB) {
         const city = await fetchAndFilter(searchArg.split("+")[1], "Phone Code", state[0]);
         if (city.length != 0) {
@@ -173,7 +173,7 @@ async function response() {
     let validQuery = validateQuery(query);
     if (validQuery) {
         let mainInfo, region, allExternalInfo, countryHtml;
-        const db = await fetchDB("countries.json");
+        const db = await fetchDB("/db/countries.json");
         region = await searchRegion(query);
 
         if (typeof (region) != 'undefined') {
@@ -216,7 +216,7 @@ async function tests() {
     };
     let countries = ["+255", "+241", "+239", "+44", "+237", "+1", "+1264", "+350", "+63", "+850", "+61", "+358", "+970", "+974", "+47"];
     let country = testRandomCountry();
-    let db = await fetchDB("countries.json");
+    let db = await fetchDB("/db/countries.json");
     let data = searchDB(db, "dialCode", country);
     let allExternalInfo = await getExtraDetails(data);
     let countryHtml = generateHtml(data, allExternalInfo, undefined, country);
