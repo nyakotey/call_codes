@@ -95,7 +95,7 @@ function generate3PHtml(json = {}, query) {
     for (const tz of json.timezones) {
         timezones.push(tz);
     }
-    // limit max results to 3 or 4
+    // limit max results to 3
     let html = /* html*/ `
     <div class="country_extra">
         <div class="code_title"> 
@@ -126,7 +126,7 @@ function generate3PHtml(json = {}, query) {
             <span> Timezones </span>
         </div>
         <div class="tz_content">
-            ${timezones.slice(0, 2).join(", ") + "<br/>" + (timezones.slice(2, 4).join(", ") || "")}
+            ${timezones.slice(0, 2).join(", ") + "<br/>" + (timezones[2] || "")}
         </div>
         
         <!-- <div class="coa_title"> 
