@@ -130,10 +130,10 @@ body {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    overflow-x: auto;
+    overflow-y: auto;
     gap: 1.2rem;
     padding: 2rem;
-    scroll-snap-type: x mandatory;
+    scroll-snap-type: y mandatory;
 }
 
 .country {
@@ -147,7 +147,7 @@ body {
     border-radius: 0.5rem;
     box-shadow: 0 0 2px 0px rgba(94, 94, 94, 0.164),
         0 0 4px 1px rgba(55, 118, 255, 0.05);
-    scroll-snap-align: center;
+    scroll-snap-align: start;
 }
 
 .country_name {
