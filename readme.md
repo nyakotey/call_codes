@@ -6,7 +6,6 @@
 Call Codes Checker is a web app that retrieves country information based on it's international dialing code <br>
 Built with Vanilla JavaScript, HTML and CSS <br>
 
-Preview
 It's live on [callcodes.netlify.app](https://callcodes.netlify.app/) :rocket:
 <br> Feature branches in this repo can be accessed via `branchName`--callcodes.netlify.app`
 <br><br>
