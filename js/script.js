@@ -52,7 +52,7 @@ async function searchRegion(query) {
 
 async function searchNorthAmerica(searchArg) {
     let result = [];
-    const statesDB = [["canada_city_codes.json", "Canada"], ["usa_city_codes.json", "United States"]];
+    const statesDB = [["/db/canada_city_codes.json", "Canada"], ["/db/usa_city_codes.json", "United States"]];
     for (const state of statesDB) {
         const city = await fetchAndFilter(searchArg.split("+")[1], "Phone Code", state[0]);
         if (city.length != 0) {
@@ -76,7 +76,7 @@ async function getExtraDetails(srcInfo) {
     });
     console.table(links);
     const jsons = links.map(async (link) => await fetchDB(link));
-    const details = await Promise.all(jsons); console.log(details.flat())
+    const details = await Promise.all(jsons);
     return details.flat();
 }
 
@@ -90,12 +90,12 @@ function generate3PHtml(json = {}, query) {
         languages.push([json.languages[lang]]);
     }
     for (const currency in json.currencies) {
-        currencies.push(`<span class="currency_symbol">${json.currencies[currency].symbol}</span> ${json.currencies[currency].name}`);
+        currencies.push(`<span class="currency_symbol">${json.currencies[currency].symbol || ":("}</span> ${json.currencies[currency].name}`);
     }
     for (const tz of json.timezones) {
         timezones.push(tz);
     }
-    // limit max to 3 by splicing
+    // limit max results to 3
     let html = /* html*/ `
     <div class="country_extra">
         <div class="code_title"> 
@@ -119,13 +119,15 @@ function generate3PHtml(json = {}, query) {
             <i class="fas fa-language fa-fw extra_icons"></i>
             <span> Languages </span>
         </div>
-        <div class="lang_content">${languages.splice(0, 3).join(", ")}</div>
+        <div class="lang_content">${languages.splice(0, 3).join("<br>")}</div>
 
         <div class="tz_title"> 
             <i class="fas fa-clock fa-fw extra_icons"></i>
             <span> Timezones </span>
         </div>
-        <div class="tz_content">${timezones.splice(0, 3).join(", ")}</div>
+        <div class="tz_content">
+            ${timezones.slice(0, 2).join(", ") + "<br/>" + (timezones[2] || "")}
+        </div>
         
         <!-- <div class="coa_title"> 
             <i class="fas fa-horse-head fa-fw extra_icons"></i>
@@ -163,6 +165,7 @@ function generateHtml(mainData, externalInfo = [{}], city = {}, query = "+XXX") 
 
 
 async function response() {
+    hideInfoPane();
     const loadingHtml = "<div style='color: #aaaaaabb;'>loading...</div>";
     render(output, loadingHtml);
 
@@ -170,7 +173,7 @@ async function response() {
     let validQuery = validateQuery(query);
     if (validQuery) {
         let mainInfo, region, allExternalInfo, countryHtml;
-        const db = await fetchDB("countries.json");
+        const db = await fetchDB("/db/countries.json");
         region = await searchRegion(query);
 
         if (typeof (region) != 'undefined') {
@@ -196,20 +199,30 @@ function submitOnEnter(e) {
 }
 
 
+function hideInfoPane() {
+    const infoPane = $(".info")[0];
+    if (infoPane) {
+        infoPane.classList.add("hide-info");
+    }
+}
+
+
 async function tests() {
+    render(output, "<b style='color:#ccc'>testing...</b>");
+
     const testRandomCountry = () => {
-        countries = ["+255", "+241", "+239", "+44", "+237", "+1", "+1264", "+350", "+63", "+850", "+61", "+358", "+970", "+974"];
-        i = Math.floor(Math.random() * countries.length);
+        let i = Math.floor(Math.random() * countries.length);
         return countries[i];
     };
-    let randomCountry = testRandomCountry(); console.log(randomCountry);
-    let db = await fetchDB("countries.json");
-    let data = searchDB(db, "dialCode", randomCountry);
-
+    let countries = ["+255", "+241", "+239", "+44", "+237", "+1", "+1264", "+350", "+63", "+850", "+61", "+358", "+970", "+974", "+47"];
+    let country = testRandomCountry();
+    let db = await fetchDB("/db/countries.json");
+    let data = searchDB(db, "dialCode", country);
     let allExternalInfo = await getExtraDetails(data);
-    let countryHtml = generateHtml(data, allExternalInfo, undefined, randomCountry);
+    let countryHtml = generateHtml(data, allExternalInfo, undefined, country);
+
+    render(output, countryHtml);
 }
-// tests();
 
 
 // main
@@ -226,3 +239,5 @@ const submitButton = $("button")[0];
 input.addEventListener("enter", response);
 input.addEventListener("keydown", submitOnEnter);
 submitButton.addEventListener("click", response);
+
+// tests();
