@@ -76,7 +76,7 @@ async function getExtraDetails(srcInfo) {
     });
     console.table(links);
     const jsons = links.map(async (link) => await fetchDB(link));
-    const details = await Promise.all(jsons); console.log(details.flat())
+    const details = await Promise.all(jsons);
     return details.flat();
 }
 
@@ -95,7 +95,7 @@ function generate3PHtml(json = {}, query) {
     for (const tz of json.timezones) {
         timezones.push(tz);
     }
-    // limit max results to 3 
+    // limit max results to 3 or 4
     let html = /* html*/ `
     <div class="country_extra">
         <div class="code_title"> 
@@ -125,7 +125,9 @@ function generate3PHtml(json = {}, query) {
             <i class="fas fa-clock fa-fw extra_icons"></i>
             <span> Timezones </span>
         </div>
-        <div class="tz_content">${timezones.splice(0, 2).join(", ") + "<br/>" + (timezones[3] || "")}</div>
+        <div class="tz_content">
+            ${timezones.slice(0, 2).join(", ") + "<br/>" + (timezones.slice(2, 4).join(", ") || "")}
+        </div>
         
         <!-- <div class="coa_title"> 
             <i class="fas fa-horse-head fa-fw extra_icons"></i>
@@ -163,6 +165,7 @@ function generateHtml(mainData, externalInfo = [{}], city = {}, query = "+XXX") 
 
 
 async function response() {
+    hideInfoPane();
     const loadingHtml = "<div style='color: #aaaaaabb;'>loading...</div>";
     render(output, loadingHtml);
 
@@ -192,6 +195,14 @@ async function response() {
 function submitOnEnter(e) {
     if (e.keyCode == 13 || e.code == "Enter" || e.key == "Enter") {
         response();
+    }
+}
+
+
+function hideInfoPane() {
+    const infoPane = $(".info")[0];
+    if (infoPane) {
+        infoPane.classList.add("hide-info");
     }
 }
 
@@ -229,4 +240,4 @@ input.addEventListener("enter", response);
 input.addEventListener("keydown", submitOnEnter);
 submitButton.addEventListener("click", response);
 
-tests();
+// tests();
