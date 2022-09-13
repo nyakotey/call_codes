@@ -126,20 +126,20 @@ body {
 }
 
 .display {
-    width: 85vmin;
+    width: 100vw;
     display: flex;
-    flex-wrap: nowrap;
+    justify-content: center;
+    flex-wrap: wrap;
     overflow-x: auto;
     gap: 1.2rem;
-    padding: 2rem 0;
+    padding: 2rem;
     scroll-snap-type: x mandatory;
 }
 
 .country {
-    max-width: 90%;
-    /*! height: fit-content; */
+    width: min(75vmin,290px);
     display: flex;
-    flex: 0 0 max-content;
+    /*! flex: 0 0 max-content; */
     gap: 0.8rem;
     flex-direction: column;
     background: white;
