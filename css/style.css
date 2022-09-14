@@ -24,10 +24,12 @@
 
 body {
     width: 100vw;
+    height: 100vh;
     display: flex;
     align-items: center;
     flex-flow: column nowrap;
-    background: var(--bg);
+    background: url("/img/world-map.svg") var(--bg) center no-repeat;
+    background-size: cover;
     color: var(--text);
     overflow-x: hidden;
     gap: 2em;
@@ -136,8 +138,12 @@ body {
     scroll-snap-type: y mandatory;
 }
 
+.loader {
+    color: #aaaaaabb;
+}
+
 .country {
-    width: min(75vmin,290px);
+    width: min(75vmin, 290px);
     display: flex;
     /*! flex: 0 0 max-content; */
     gap: 0.8rem;
