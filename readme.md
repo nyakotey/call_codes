@@ -23,4 +23,5 @@ North America (US and Canada) area codes are also supported.
 
 [Countries Json](https://gist.github.com/kcak11/4a2f22fb8422342b3b3daa7a1965f4e4) <br>
 [RestCountries API](restCountries.com) <br>
-[North America Area Codes](https://countrycode.org/)
+[North America Area Codes](https://countrycode.org/) <br>
+[World Map Svg Background](https://bgjar.com/world-map)

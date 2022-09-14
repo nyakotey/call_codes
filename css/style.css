@@ -24,10 +24,12 @@
 
 body {
     width: 100vw;
+    height: 100vh;
     display: flex;
     align-items: center;
     flex-flow: column nowrap;
-    background: var(--bg);
+    background: url("/img/world-map.svg") var(--bg) center no-repeat;
+    background-size: cover;
     color: var(--text);
     overflow-x: hidden;
     gap: 2em;
