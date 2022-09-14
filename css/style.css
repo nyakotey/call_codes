@@ -136,8 +136,12 @@ body {
     scroll-snap-type: y mandatory;
 }
 
+.loader {
+    color: #aaaaaabb;
+}
+
 .country {
-    width: min(75vmin,290px);
+    width: min(75vmin, 290px);
     display: flex;
     /*! flex: 0 0 max-content; */
     gap: 0.8rem;

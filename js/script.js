@@ -166,7 +166,9 @@ function generateHtml(mainData, externalInfo = [{}], city = {}, query = "+XXX") 
 
 async function response() {
     hideInfoPane();
-    const loadingHtml = "<div style='color: #aaaaaabb;'>loading...</div>";
+    const loadingHtml = `<div class="loader">
+    <i class="fas fa-magnifying-glass search-icon"></i> &nbsp;Searching...
+    </div>`;
     render(output, loadingHtml);
 
     let query = getQuery();
@@ -208,6 +210,7 @@ function hideInfoPane() {
 
 
 async function tests() {
+    hideInfoPane();
     render(output, "<b style='color:#ccc'>testing...</b>");
 
     const testRandomCountry = () => {
@@ -227,7 +230,7 @@ async function tests() {
 
 // main
 const err = {
-    invalidInput: `<div class="error">Please revise your input</div>`,
+    invalidInput: `<div class="error">Input is empty or in a wrong format</div>`,
     notFound: `<div class="error">Not found</div>`,
     oops: `<div class="error">Oops an error occurred</div>`,
 }
