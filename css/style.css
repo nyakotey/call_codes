@@ -20,6 +20,7 @@
     --header: #37393a;
     --dev-outline: solid lime 2px;
     --text: #37393a;
+    --error-color: #df6980;
 }
 
 body {
@@ -83,7 +84,7 @@ body {
     color: var(--maximum-yellow-red);
 }
 
-.hide-info {
+.info--hide {
     animation: hide-info 0.3s ease forwards;
     overflow: hidden;
 }
@@ -103,10 +104,11 @@ body {
     width: 85vmin;
     display: flex;
     gap: 3px;
+    flex-wrap: wrap;
 }
 
 .input_box {
-    width: calc(70%);
+    width: calc(70% - 3px);
     height: 2.8rem;
     font-size: 1.2rem;
     border: 2px solid #80808080;
@@ -127,7 +129,20 @@ body {
     color: #fcfcfc;
 }
 
-.display {
+.input_submit--disabled {
+    cursor: not-allowed;
+    background: grey;
+}
+
+.logs {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.output {
     width: 100vw;
     display: flex;
     justify-content: center;
@@ -154,6 +169,27 @@ body {
     box-shadow: 0 0 2px 0px rgba(94, 94, 94, 0.164),
         0 0 4px 1px rgba(55, 118, 255, 0.05);
     scroll-snap-align: start;
+    overflow: clip;
+}
+
+.country--notFound .country_extra {
+    /* font-size: 1.3rem; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.country--notFound .error {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 0.7rem 1.3rem 0.9rem;
+
 }
 
 .country_name {
@@ -180,13 +216,6 @@ body {
     display: grid;
     grid-template-columns: auto auto;
     gap: 0.2rem 0.7rem;
-}
-
-.error {
-    background: #fcd4dc;
-    width: 85vmin;
-    border-radius: 0.5rem;
-    padding: 0.7rem 1.3rem 0.9rem;
 }
 
 .code_title,
@@ -217,4 +246,49 @@ body {
     border-radius: 0.2rem;
     padding: 0 0.2rem;
     font-size: 0.95rem;
+}
+
+.error {
+    background: #fcd4dc;
+    width: 85vmin;
+    border-radius: 0.5rem;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-areas: "msg close";
+    grid-template-columns: 9fr 1fr;
+}
+
+.error_msg,
+.close-icon {
+    padding: 0.5rem 0.7rem;
+    display: flex;
+    align-items: center;
+}
+
+.error_msg {
+    grid-area: msg;
+}
+
+.close-icon {
+    justify-content: center;
+    grid-area: close;
+    color: var(--error-color);
+}
+
+.search-group {
+    --main: #dfdfdf;
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 0.8rem;
+    padding: 0.25rem;
+    background: #ffffff;
+    color: var(--main);
+    border-left: 0.1rem solid var(--main);
+    border-bottom: 0.1rem solid var(--main);
+    border-bottom-left-radius: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
