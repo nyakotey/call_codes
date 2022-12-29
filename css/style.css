@@ -147,8 +147,21 @@ body {
 }
 
 .input_controls{
-    padding-top: 0.9rem;
+    margin-top: 0.2rem;
+    padding: 0.3rem 0.9rem;
+    border-radius: .4rem;
+    border: 1px solid #80808080;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
 }
+
+.search-mode{
+    padding: 0.2rem 0.5rem;
+}
+
 
 .logs {
     display: flex;
