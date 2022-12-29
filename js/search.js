@@ -71,7 +71,7 @@ class GlobalSearch extends Search {
 }
 
 export class CountrySearch {
-    static #modes = {fullName: /^[a-zA-Z ]{2,}$/};
+    static #modes = {fullName: /^[a-zA-Z ]{3,}$/};
     static run(query, queryId) {
         if (isQueryValid(query, CountrySearch.#modes.fullName)) {
             return new NameSearch(query, queryId);
@@ -85,7 +85,7 @@ export class CountrySearch {
 class NameSearch extends Search {
     async results() {
         function callback(e, filterField, searchArg) {
-            return e[filterField].toLowerCase() == searchArg.toLowerCase();
+            return isQueryValid(e[filterField],searchArg);
         }
         let primaryData = searchDBWithCallBack(Search.db.global, "name", this.search, callback);
         let secondaryData = await fetchRestCountriesData(primaryData);
