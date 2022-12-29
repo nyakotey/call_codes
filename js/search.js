@@ -52,7 +52,7 @@ class NorthAmericanSearch extends Search {
         }
         primaryData = searchDB(Search.db.global, "name", this.region.name);
         secondaryData = await fetchRestCountriesData(primaryData);
-        extraData = { group: this.group, search: this.search, city: this.region.city }
+        extraData = { group: this.group, dialCode: this.search, city: this.region.city }
         return { primaryData, secondaryData, extraData }
     }
 }
@@ -64,7 +64,7 @@ class GlobalSearch extends Search {
     async results() {
         let primaryData = searchDB(Search.db.global, "dialCode", this.search);
         let secondaryData = await fetchRestCountriesData(primaryData);
-        let extraData = { group: this.group, search: this.search }
+        let extraData = { group: this.group}
         return { primaryData, secondaryData, extraData }
     }
 }
