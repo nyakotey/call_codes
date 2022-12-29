@@ -75,6 +75,18 @@ body {
     font-size: 0.8rem;
 }
 
+.info_changelog-text{
+    font-style: italic;
+    font-size: 0.7rem;
+}
+.info_changelog-icon{
+    background: var(--error-color);
+    color: white;
+    font-size: 0.5rem;
+    padding: 0.2rem 0.3rem;
+    border-radius: 0.3rem;
+}
+
 /* .info_format--header{
     padding-top: 0.4rem;
 } */
