@@ -3,14 +3,15 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="author" content="Nyakotey">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Call Codes Checker</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="/css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" />
-    <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body>
@@ -20,13 +21,18 @@
         <p class="info_details">Get the region from the dialing code</p>
         <p class="info_format info_format--header">supported formats:</p>
         <p class="info_format info_format--content">+1-XXX, &nbsp; +X, &nbsp; +XX, &nbsp; +XXX, &nbsp; +XXXX</p>
+        <p class="info_changelog">
+            <span class="info_changelog-icon">NEW</span>
+            <span class="info_changelog-text">make multiple searches at once using <b>","</b>  as separator</span> 
+        </p>
     </section>
     <section class="input">
-        <input class="input_box" type="tel" name="input-code" id="input-code" placeholder="+233">
+        <input class="input_box" type="tel" name="input-code" id="input-code" placeholder="+233,+44">
         <button class="input_submit">Search</button>
     </section>
-    <section class="display"></section>
-    <script src="/js/script.js"></script>
+    <section class="logs"></section>
+    <section class="output"></section>
+    <script src="/js/app.js" type="module"></script>
 </body>
 
 </html>

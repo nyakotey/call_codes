@@ -13,10 +13,15 @@ It's live on [callcodes.netlify.app](https://callcodes.netlify.app/) :rocket:
 ### Format
 
 Enter the `int'l dial prefix`, full number is not required.
-<br> E.g. `+233` -> Ghana, `+44` -> United Kingdom
+<br> Examples: 
+<br> `+44` -> United Kingdom
+<br> `+233` -> Ghana, 
 
 North America (US and Canada) area codes are also supported.
-<br> E.g. `+1-705` -> Winnipeg, Canada
+<br> Examples:
+<br> `+1-705` -> Winnipeg, Canada
+<br> `+1-678` -> Miami, United States
+<br> `+1-954` -> Fort Lauderdale, United States
 <br><br>
 
 ### Credits

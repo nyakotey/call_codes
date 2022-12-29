@@ -1,8 +1,4 @@
-const $ = (elem) => document.querySelectorAll(elem);
-
-
-const render = (elem, data) => elem.innerHTML = data;
-
+import {$, render} from "./util.js"
 
 const getQuery = () => input.value;
 
@@ -204,7 +200,7 @@ function submitOnEnter(e) {
 function hideInfoPane() {
     const infoPane = $(".info")[0];
     if (infoPane) {
-        infoPane.classList.add("hide-info");
+        infoPane.classList.add("info--hide");
     }
 }
 
@@ -217,7 +213,7 @@ async function tests() {
         let i = Math.floor(Math.random() * countries.length);
         return countries[i];
     };
-    let countries = ["+255", "+241", "+239", "+44", "+237", "+1", "+1264", "+350", "+63", "+850", "+61", "+358", "+970", "+974", "+47"];
+    let countries = ["+255", "+241", "+239", "+44", "+237", "+1", "+1264", "+350", "+63", "+850", "+61", "+358", "+970", "+974", "+47", "+44-1481"];
     let country = testRandomCountry();
     let db = await fetchDB("/db/countries.json");
     let data = searchDB(db, "dialCode", country);
@@ -236,7 +232,7 @@ const err = {
 }
 // dom
 const input = $("input")[0];
-const output = $(".display")[0];
+const output = $(".output")[0];
 const submitButton = $("button")[0];
 
 input.addEventListener("enter", response);
