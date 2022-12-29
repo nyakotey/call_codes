@@ -12,6 +12,10 @@ export function searchDB(db, filterField, searchArg) {
     return db.filter((e) => e[filterField] == searchArg);
 }
 
+export function searchDBWithCallBack(db, filterField, searchArg, callback) {
+    return db.filter((e) =>callback(e,filterField, searchArg));
+}
+
 export async function fetchRestCountriesData(srcInfo) {
     let links = [];
     srcInfo.forEach(country => {

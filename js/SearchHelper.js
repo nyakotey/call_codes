@@ -24,7 +24,7 @@ function generateHtml(primData, secData, extra) {
                     <i class="fas fa-tty fa-fw extra_icons"></i>
                     <span> DialCode </span>
                 </div>
-                <div class="continent_content">${ extra.dialCode || primData.dialCode}</div>
+                <div class="code_content">${ extra.dialCode || primData.dialCode}</div>
                 <div class="continent_title">
                     <i class="fas fa-globe fa-fw extra_icons"></i>
                     <span> Continent </span>

@@ -146,6 +146,10 @@ body {
     background: grey;
 }
 
+.input_controls{
+    padding-top: 0.9rem;
+}
+
 .logs {
     display: flex;
     justify-content: center;

@@ -1,4 +1,4 @@
-import { databases, fetchRestCountriesData, searchDB } from "./db.js";
+import { databases, fetchRestCountriesData, searchDB, searchDBWithCallBack } from "./db.js";
 import { isQueryValid } from "./validator.js";
 
 class Search {
@@ -6,6 +6,10 @@ class Search {
         this.search = searchStr;
         this.group = searchGroupNum;
     }
+    /**
+ * @returns {Promise} object with keys primaryData, secondaryData, extraData of types Object[] Object[] Object respectively 
+ */
+    async results() { }
     static db = databases;
 }
 
@@ -25,7 +29,7 @@ export class DialCodeSearch {
             return new GlobalSearch(query, queryId);
         }
         else {
-            throw new TypeError(`${this.search} needs to be revised`);
+            throw new TypeError(`${query} doesn't match`);
         }
     }
 }
@@ -33,9 +37,9 @@ export class DialCodeSearch {
 class NorthAmericanSearch extends Search {
     async results() {
         // initial values
-        let primaryData = []
-        let secondaryData = []
-        let extraData = { group: this.group, search: this.search }
+        let primaryData = [];
+        let secondaryData = [];
+        let extraData = { group: this.group, search: this.search };
 
         let cityCanada = searchDB(Search.db.canada, "Phone Code", this.search.split("+")[1]);
         if (cityCanada.length != 0) {
@@ -52,19 +56,40 @@ class NorthAmericanSearch extends Search {
         }
         primaryData = searchDB(Search.db.global, "name", this.region.name);
         secondaryData = await fetchRestCountriesData(primaryData);
-        extraData = { group: this.group, dialCode: this.search, city: this.region.city }
+        extraData = { ...extraData, dialCode: this.search, city: this.region.city }
         return { primaryData, secondaryData, extraData }
     }
 }
 
 class GlobalSearch extends Search {
-    /**
-     * @returns {Promise} object with keys primaryData, secondaryData, extraData of types Object[] Object[] Object respectively 
-     */
     async results() {
         let primaryData = searchDB(Search.db.global, "dialCode", this.search);
         let secondaryData = await fetchRestCountriesData(primaryData);
-        let extraData = { group: this.group}
+        let extraData = { group: this.group, search: this.search }
+        return { primaryData, secondaryData, extraData }
+    }
+}
+
+export class CountrySearch {
+    static #modes = {fullName: /^[a-zA-Z ]{2,}$/};
+    static run(query, queryId) {
+        if (isQueryValid(query, CountrySearch.#modes.fullName)) {
+            return new NameSearch(query, queryId);
+        }
+        else {
+            throw new TypeError(`${query} doesn't match`);
+        }
+    }
+}
+
+class NameSearch extends Search {
+    async results() {
+        function callback(e, filterField, searchArg) {
+            return e[filterField].toLowerCase() == searchArg.toLowerCase();
+        }
+        let primaryData = searchDBWithCallBack(Search.db.global, "name", this.search, callback);
+        let secondaryData = await fetchRestCountriesData(primaryData);
+        let extraData = { group: this.group, search: this.search };
         return { primaryData, secondaryData, extraData }
     }
 }
