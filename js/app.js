@@ -14,7 +14,7 @@ const control = $("#search-mode")[0];
 // main
 input.addEventListener("keydown", submitOnEnter);
 submitButton.addEventListener("click", process);
-control.addEventListener("change", (e) => {Tracker.previous = ""});
+control.addEventListener("change", () => { Tracker.previous = "" });
 
 //defs
 function submitOnEnter(e) {
@@ -44,6 +44,7 @@ async function searchService(query, queryId) {
     try {
         return search.run(query, ++queryId).results();
     } catch (error) {
+        console.log(error);
         if (error.name == "TypeError") {
             Tracker.log(`your input ${queryId}, "${query}" needs to be revised`);
             return [];

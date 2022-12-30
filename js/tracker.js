@@ -30,9 +30,10 @@ export default class Tracker {
     static genNotificationElement(log) {
         let notification = document.createElement("div");
         notification.innerHTML = `
-        <div class="error_msg">${log}</div>
+        <div class="error_msg"></div>
         <div class="close-icon"><i class="fas fa-x"></i></div>`;
         notification.className = "error";
+        notification.querySelector(".error_msg").textContent = log;
         notification.addEventListener("click", (e) => {
             if (e.target.closest(".close-icon")) e.currentTarget.remove();
         });
@@ -42,7 +43,7 @@ export default class Tracker {
     static get previous() {
         return Tracker.#previousValue;
     }
-    
+
     static set previous(value) {
         if (Tracker.#previousValue !== value) {
             Tracker.#previousValue = value;

@@ -1,16 +1,24 @@
-import { databases, fetchRestCountriesData, searchDB, searchDBWithCallBack } from "./db.js";
+import { fetchRestCountriesData, searchDB, searchDBWithCallBack, fetchDB, } from "./db.js";
 import { isQueryValid } from "./validator.js";
 
 class Search {
+    deps = {};
+    static #cacheDB = new Map();
+
     constructor(searchStr, searchGroupNum) {
         this.search = searchStr;
         this.group = searchGroupNum;
     }
     /**
- * @returns {Promise} object with keys primaryData, secondaryData, extraData of types Object[] Object[] Object respectively 
- */
+     * @returns {Promise} object with keys primaryData, secondaryData, extraData of types Object[] Object[] Object respectively
+     */
     async results() { }
-    static db = databases;
+
+    async accessDB(db = "") {
+        if (Search.#cacheDB.has(db)) return Search.#cacheDB.get(db);
+        Search.#cacheDB.set(db, fetchDB(db));
+        return await Search.#cacheDB.get(db);
+    }
 }
 
 export class DialCodeSearch {
@@ -28,68 +36,79 @@ export class DialCodeSearch {
         if (isQueryValid(query, DialCodeSearch.#modes.global)) {
             return new GlobalSearch(query, queryId);
         }
-        else {
-            throw new TypeError(`${query} doesn't match`);
-        }
+        throw new TypeError(`${query} doesn't match ${this.name} regex`);
     }
 }
 
 class NorthAmericanSearch extends Search {
+    deps = {
+        global: "/db/countries.json",
+        canada: "/db/canada_city_codes.json",
+        usa: "/db/usa_city_codes.json",
+    }
+
     async results() {
         // initial values
         let primaryData = [];
         let secondaryData = [];
         let extraData = { group: this.group, search: this.search };
+        
+        let areaCode = this.search.split("+")[1];
+        let canadaDB = await this.accessDB(this.deps.canada);
+        let usaDB = await this.accessDB(this.deps.usa);
 
-        let cityCanada = searchDB(Search.db.canada, "Phone Code", this.search.split("+")[1]);
+        let cityCanada = searchDB(canadaDB, "Phone Code", areaCode);
         if (cityCanada.length != 0) {
             this.region = { name: "Canada", city: cityCanada[0].Description };
         }
         else {
-            let cityUSA = searchDB(Search.db.usa, "Phone Code", this.search.split("+")[1]);
+            let cityUSA = searchDB(usaDB, "Phone Code", areaCode);
             if (cityUSA.length != 0) {
-                this.region = { name: "United States", city: cityUSA[0].Description };
+                this.region = { name: "United States", city: cityUSA[0].Description, };
             }
         }
-        if ([null, undefined].includes(this.region)) {
+        if (!this.region) {
             return { primaryData, secondaryData, extraData };
         }
-        primaryData = searchDB(Search.db.global, "name", this.region.name);
+        primaryData = searchDB(await this.accessDB(this.deps.global), "name", this.region.name);
         secondaryData = await fetchRestCountriesData(primaryData);
-        extraData = { ...extraData, dialCode: this.search, city: this.region.city }
-        return { primaryData, secondaryData, extraData }
+        extraData = { ...extraData, dialCode: this.search, city: this.region.city, };
+        return { primaryData, secondaryData, extraData };
     }
 }
 
 class GlobalSearch extends Search {
+    deps = { global: "/db/countries.json" };
+
     async results() {
-        let primaryData = searchDB(Search.db.global, "dialCode", this.search);
+        let primaryData = searchDB(await this.accessDB(this.deps.global), "dialCode", this.search);
         let secondaryData = await fetchRestCountriesData(primaryData);
-        let extraData = { group: this.group, search: this.search }
-        return { primaryData, secondaryData, extraData }
+        let extraData = { group: this.group, search: this.search };
+        return { primaryData, secondaryData, extraData };
     }
 }
 
 export class CountrySearch {
-    static #modes = {fullName: /^[a-zA-Z ]{3,}$/};
+    static #modes = { fullName: /^[a-zA-Z ]{3,}$/ };
+
     static run(query, queryId) {
         if (isQueryValid(query, CountrySearch.#modes.fullName)) {
             return new NameSearch(query, queryId);
         }
-        else {
-            throw new TypeError(`${query} doesn't match`);
-        }
+        throw new TypeError(`${query} doesn't match ${this.name} regex`);
     }
 }
 
 class NameSearch extends Search {
+    deps = { global: "/db/countries.json" };
+
     async results() {
         function callback(e, filterField, searchArg) {
-            return isQueryValid(e[filterField],searchArg);
+            return isQueryValid(e[filterField], searchArg);
         }
-        let primaryData = searchDBWithCallBack(Search.db.global, "name", this.search, callback);
+        let primaryData = searchDBWithCallBack(await this.accessDB(this.deps.global), "name", this.search, callback);
         let secondaryData = await fetchRestCountriesData(primaryData);
         let extraData = { group: this.group, search: this.search };
-        return { primaryData, secondaryData, extraData }
+        return { primaryData, secondaryData, extraData };
     }
 }
