@@ -1,4 +1,4 @@
-import { fetchRestCountriesData, searchDB, searchDBWithCallBack, fetchDB, } from "./db.js";
+import { fetchRestCountriesData, searchDB, searchDBWithCallBack, fetchDB } from "./db.js";
 import { isQueryValid } from "./validator.js";
 
 class Search {
