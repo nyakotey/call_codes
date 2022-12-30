@@ -1,4 +1,4 @@
-import { fetchRestCountriesData, searchDB, searchDBWithCallBack, fetchDB, } from "./db.js";
+import { fetchRestCountriesData, searchDB, searchDBWithCallBack, fetchDB } from "./db.js";
 import { isQueryValid } from "./validator.js";
 
 class Search {
@@ -54,14 +54,14 @@ class NorthAmericanSearch extends Search {
         let extraData = { group: this.group, search: this.search };
         
         let areaCode = this.search.split("+")[1];
+        
         let canadaDB = await this.accessDB(this.deps.canada);
-        let usaDB = await this.accessDB(this.deps.usa);
-
         let cityCanada = searchDB(canadaDB, "Phone Code", areaCode);
         if (cityCanada.length != 0) {
             this.region = { name: "Canada", city: cityCanada[0].Description };
         }
         else {
+            let usaDB = await this.accessDB(this.deps.usa);
             let cityUSA = searchDB(usaDB, "Phone Code", areaCode);
             if (cityUSA.length != 0) {
                 this.region = { name: "United States", city: cityUSA[0].Description, };

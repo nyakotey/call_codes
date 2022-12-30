@@ -33,7 +33,7 @@ body {
     background-size: cover;
     color: var(--text);
     overflow-x: hidden;
-    gap: 2em;
+    gap: 1em;
 }
 
 /* body > * {
@@ -179,6 +179,7 @@ body {
     overflow-y: auto;
     gap: 1.2rem;
     padding: 2rem;
+    padding-top: 0.5rem;
     scroll-snap-type: y mandatory;
 }
 
