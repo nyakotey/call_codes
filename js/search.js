@@ -112,3 +112,18 @@ class NameSearch extends Search {
         return { primaryData, secondaryData, extraData };
     }
 }
+
+export function SearchController(searchMode) {
+    let search;
+    switch (searchMode) {
+        case "dialCode":
+            search = DialCodeSearch;
+            break;
+        case "country":
+            search = CountrySearch;
+            break;
+        default:
+            break;
+    }
+    return search;
+}
