@@ -5,7 +5,7 @@
   "source":"index.html",
   "scripts": {
     "start": "parcel index.html",
-    "build": "minify-json db/*.json && parcel build index.html db/*.json  --no-source-maps"
+    "build": "parcel build index.html db/*.json  --no-source-maps"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/nyakotey/call_codes#readme",
   "devDependencies": {
-    "parcel": "^2.8.2",
-    "minify-json": "^1.0.0"
+    "parcel": "^2.8.2"
   }
 }
