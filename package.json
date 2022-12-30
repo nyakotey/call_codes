@@ -1,0 +1,28 @@
+{
+  "name": "call_codes",
+  "version": "1.1.0",
+  "description": "Fetch Country Info via dialCode search",
+  "source":"index.html",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html  --no-source-maps"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nyakotey/call_codes.git"
+  },
+  "keywords": [
+    "callcodes",
+    "dialcodes",
+    "country"
+  ],
+  "author": "Nathaniel Nyakotey",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nyakotey/call_codes/issues"
+  },
+  "homepage": "https://github.com/nyakotey/call_codes#readme",
+  "devDependencies": {
+    "parcel": "^2.8.2"
+  }
+}

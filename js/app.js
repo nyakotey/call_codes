@@ -79,11 +79,11 @@ function bindControlEvents(event) {
     switch (event.target.value) {
         case "dialCode":
             input.setAttribute("placeholder", "+233,+44");
-                        input.setAttribute("type", "tel");
+            input.setAttribute("type", "tel");
             break;
         case "country":
             input.setAttribute("placeholder", "New Zealand");
-                        input.setAttribute("type", "text");
+            input.setAttribute("type", "text");
         default:
             break;
     }
