@@ -1,7 +1,7 @@
 import { $, render, setElem } from "./util.js";
 import { genGroupHtml } from "./SearchHelper.js";
 import Tracker from "./tracker.js";
-import { DialCodeSearch, CountrySearch } from "./search.js";
+import { SearchController } from "./search.js";
 
 // DOM
 const infoPane = $(".info")[0];
@@ -14,7 +14,7 @@ const control = $("#search-mode")[0];
 // main
 input.addEventListener("keydown", submitOnEnter);
 submitButton.addEventListener("click", process);
-control.addEventListener("change", () => { Tracker.previous = "" });
+control.addEventListener("change", bindControlEvents);
 
 //defs
 function submitOnEnter(e) {
@@ -30,13 +30,19 @@ async function process() {
     Tracker.previous = query;
 
     preSearchStyling();
-    query = query.split(",").filter((e) => e != "");
+    query = formatInput(query);
     let promiseResults = query.map(searchService);
     let results = await Promise.all(promiseResults);
     let resultsHtml = results.map(genGroupHtml).join("");
     render(output, resultsHtml);
     setElem(logs, Tracker.getlogs("html"));
     postSearchStyling();
+}
+
+function formatInput(input) {
+    let raw = input.split(",");
+    let queries = raw.map((q) => q.trim());
+    return queries.filter((e) => e != "");
 }
 
 async function searchService(query, queryId) {
@@ -50,21 +56,6 @@ async function searchService(query, queryId) {
             return [];
         }
     }
-}
-
-function SearchController(searchMode) {
-    let search;
-    switch (searchMode) {
-        case "dialCode":
-            search = DialCodeSearch;
-            break;
-        case "country":
-            search = CountrySearch;
-            break;
-        default:
-            break;
-    }
-    return search;
 }
 
 function preSearchStyling() {
@@ -81,4 +72,17 @@ function preSearchStyling() {
 function postSearchStyling() {
     submitButton.classList.remove("input_submit--disabled");
     submitButton.disabled = false;
+}
+
+function bindControlEvents(event) {
+    Tracker.previous = "";
+    switch (event.target.value) {
+        case "dialCode":
+            input.setAttribute("placeholder", "+233,+44");
+            break;
+        case "country":
+            input.setAttribute("placeholder", "New Zealand");
+        default:
+            break;
+    }
 }
