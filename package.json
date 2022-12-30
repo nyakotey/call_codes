@@ -5,7 +5,7 @@
   "source":"index.html",
   "scripts": {
     "start": "parcel index.html",
-    "build": "parcel build index.html  --no-source-maps"
+    "build": "parcel build index.html db/*.json"
   },
   "repository": {
     "type": "git",
