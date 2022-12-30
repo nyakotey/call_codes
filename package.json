@@ -5,7 +5,7 @@
   "source":"index.html",
   "scripts": {
     "start": "parcel index.html",
-    "build": "minify-json /db/ && parcel build index.html db/*.json  --no-source-maps"
+    "build": "minify-json db/*.json && parcel build index.html db/*.json  --no-source-maps"
   },
   "repository": {
     "type": "git",
