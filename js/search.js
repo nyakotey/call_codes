@@ -42,9 +42,9 @@ export class DialCodeSearch {
 
 class NorthAmericanSearch extends Search {
     deps = {
-        global: "db/countries.json",
-        canada: "db/canada_city_codes.json",
-        usa: "db/usa_city_codes.json",
+        global: "db/countries.js",
+        canada: "db/canada_city_codes.js",
+        usa: "db/usa_city_codes.js",
     }
 
     async results() {
@@ -78,7 +78,7 @@ class NorthAmericanSearch extends Search {
 }
 
 class GlobalSearch extends Search {
-    deps = { global: "db/countries.json" };
+    deps = { global: "db/countries.js" };
 
     async results() {
         let primaryData = searchDB(await this.accessDB(this.deps.global), "dialCode", this.search);
@@ -100,7 +100,7 @@ export class CountrySearch {
 }
 
 class NameSearch extends Search {
-    deps = { global: "db/countries.json" };
+    deps = { global: "db/countries.js" };
 
     async results() {
         function callback(e, filterField, searchArg) {
