@@ -1,3 +1,5 @@
+import svg from "../img/world-map.svg"
+
 function generateHtml(primData, secData, extra) {
     if (!secData || !primData) {
         return "<span></span>";
@@ -65,7 +67,7 @@ export function genGroupHtml(data) {
     return groupHtml || `
     <div class="country country--notFound">
     <div class="search-group">${data.extraData.group}</div>
-    <div class="country_flag"><img src="/img/world-map.svg" alt="" class="country_flag_img"></div>
+    <div class="country_flag"><img src="${svg}" alt="" class="country_flag_img"></div>
     <div class="country_extra">
         <div class="error">
             <p>${data.extraData.search} was not Found </p>
